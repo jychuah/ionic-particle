@@ -8,31 +8,13 @@ import { ParticleProvider } from '../../providers/particle/particle';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public var1: any;
-  private subscription: any = null;
-  
+ 
   constructor(public navCtrl: NavController, public particle: ParticleProvider) {
   }
 
   ionViewDidLoad() {
-    this.login()
-  }
-
-  cancelSubscription() {
-    if (this.subscription) {
-        this.subscription.cancel();
-    }
-    this.subscription = null;
-  }
-
-  ionViewDidEnter() {
-    if (this.particle.device) {
-        this.cancelSubscription();
-        this.particle.pollVariable("var1").subscribe(
-            (value) => { this.var1 = value; },
-            (error) => { console.log("Error reading var1"); },
-            () => { console.log("Stopped polling var1"); }
-        );
+    if (!this.particle.token) {
+    	this.login()
     }
   }
 
